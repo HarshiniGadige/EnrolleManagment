@@ -1,5 +1,5 @@
-# EnrolleManagment
-EnrolleManagment
+# EnrolleeManagment
+
 
 # Test Case Instructions
 Run the following command in the terminal for the angular unit test cases to get executed "npm run test".
