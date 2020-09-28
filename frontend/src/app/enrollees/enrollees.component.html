@@ -1,0 +1,72 @@
+<h3 style="display: inline-block;">Enrolee List</h3>
+
+<div class="container" style="box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>DateOfBirth</th>
+                <th>Active</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let record of enrollees">
+                <td>{{ record.name }}</td>
+                <td>{{ record.dateOfBirth }}</td>
+                <td>
+                    <label [ngClass]="{ 'active': record.active, 'inactive': !record.active }">
+                        {{ record.active.toString() | titlecase }}</label>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"
+                        (click)="onEdit(record)">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="display: inline;">Edit Enrollee</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="enrolleeForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" formControlName="name" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                            <div *ngIf="f.name.errors.required">Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="active">Active</label>
+                        <select formControlName="active" (change)="changeStatus($event)" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.active.errors }">
+                            <option *ngFor="let opt of options" [value]="opt.value">{{ opt.text }}</option>
+                        </select>
+                        <div *ngIf="submitted && f.active.errors" class="invalid-feedback">
+                            <div *ngIf="f.active.errors.required">Status is required</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="updateEnrollee()">Update</button>
+            </div>
+        </div>
+
+    </div>
+</div>
